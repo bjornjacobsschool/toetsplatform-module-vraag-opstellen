@@ -47,7 +47,7 @@ public class VraagOpstelController {
 
     public void btnOpslaanPressed(ActionEvent event){
       String vraag = plugin.getVraagCreatorView().getQuestionData();
-      vraagOpslaan.slaOp(vraag);
+      vraagOpslaan.nieuweVraagOpslaan(vraag);
       if(onAnnuleer != null)
           onAnnuleer.run();
 
