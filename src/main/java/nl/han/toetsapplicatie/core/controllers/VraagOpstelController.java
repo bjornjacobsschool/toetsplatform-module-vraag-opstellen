@@ -4,19 +4,25 @@ import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import nl.han.toetsapplicatie.core.data.VraagOpslaanDAO;
 import nl.han.toetsapplicatie.module.model.Vraag;
 import nl.han.toetsapplicatie.module.plugin.Plugin;
 import nl.han.toetsapplicatie.module.plugin.PluginLoader;
 
 
-public class VraagEditController {
+public class VraagOpstelController {
 
     public Label lblVraagName;
-    public AnchorPane editContrainer;
+    public AnchorPane opstelContainer;
     Vraag vraag;
     Plugin plugin;
+    VraagOpslaanDAO vraagOpslaan;
 
     Runnable onExit;
+
+    public void setVraagOpslaan(VraagOpslaanDAO vraagOpslaan){
+        this.vraagOpslaan = vraagOpslaan;
+    }
 
     public void setOnExit(Runnable onExit) {
         this.onExit = onExit;
@@ -30,12 +36,21 @@ public class VraagEditController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        editContrainer.getChildren().add(plugin.getVraagCreatorView().getView());
+        opstelContainer.getChildren().add(plugin.getVraagCreatorView().getView());
     }
 
-    public void btnExitPressed(ActionEvent event) {
-        vraag.setData(plugin.getVraagCreatorView().getQuestionData());
+    public void btnAnnuleerPressed(ActionEvent event) {
         if (onExit != null)
             onExit.run();
+
+    }
+
+    public void btnOpslaanPressed(ActionEvent event){
+      String vraag = plugin.getVraagCreatorView().getQuestionData();
+      vraagOpslaan.slaOp(vraag);
+      if(onExit != null)
+          onExit.run();
+
+
     }
 }

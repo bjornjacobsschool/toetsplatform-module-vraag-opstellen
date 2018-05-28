@@ -2,22 +2,23 @@ package nl.han.toetsapplicatie.core;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import nl.han.toetsapplicatie.core.controllers.VraagEditController;
-import nl.han.toetsapplicatie.core.model.Toets;
-import nl.han.toetsapplicatie.module.model.Vraag;
+import nl.han.toetsapplicatie.core.controllers.VraagOpstelController;
+import nl.han.toetsapplicatie.core.data.VraagOpslaanDAO;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class VraagOpstellenMain extends Application {
 
     public static void main(String[] args) {
         launch(args);
     }
     Stage primaryStage;
+    VraagOpslaanDAO vraagOpslaanDAO;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -26,20 +27,22 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("HAN - Student Applicatie");
         primaryStage.show();
-       // loadVraagEdit();p
+        loadVraagEdit(vraagOpslaanDAO);
     }
 
 
-    public void loadVraagEdit(Vraag vraag){
+    public Node loadVraagEdit(VraagOpslaanDAO vraagOpslaan){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/vraagEdit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/vraagOpstel.fxml"));
             Parent toetsMakeParent = loader.load();
-            VraagEditController controller = loader.getController();
+            VraagOpstelController controller = loader.getController();
+            controller.setVraagOpslaan(vraagOpslaan);
             primaryStage.getScene().setRoot(toetsMakeParent);
-            controller.setVraag(vraag);
+            return toetsMakeParent;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
