@@ -18,14 +18,14 @@ public class VraagOpstelController {
     Plugin plugin;
     VraagOpslaanDAO vraagOpslaan;
 
-    Runnable onExit;
+    Runnable onAnnuleer;
 
     public void setVraagOpslaan(VraagOpslaanDAO vraagOpslaan){
         this.vraagOpslaan = vraagOpslaan;
     }
 
     public void setOnExit(Runnable onExit) {
-        this.onExit = onExit;
+        this.onAnnuleer = onExit;
     }
 
     public void setVraag(Vraag vraag) {
@@ -40,16 +40,16 @@ public class VraagOpstelController {
     }
 
     public void btnAnnuleerPressed(ActionEvent event) {
-        if (onExit != null)
-            onExit.run();
+        if (onAnnuleer != null)
+            onAnnuleer.run();
 
     }
 
     public void btnOpslaanPressed(ActionEvent event){
       String vraag = plugin.getVraagCreatorView().getQuestionData();
       vraagOpslaan.slaOp(vraag);
-      if(onExit != null)
-          onExit.run();
+      if(onAnnuleer != null)
+          onAnnuleer.run();
 
 
     }

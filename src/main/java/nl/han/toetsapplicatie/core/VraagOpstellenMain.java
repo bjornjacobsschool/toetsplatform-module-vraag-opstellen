@@ -18,7 +18,7 @@ public class VraagOpstellenMain extends Application {
         launch(args);
     }
     Stage primaryStage;
-    VraagOpslaanDAO vraagOpslaanDAO;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,7 +27,7 @@ public class VraagOpstellenMain extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("HAN - Student Applicatie");
         primaryStage.show();
-        loadVraagEdit(vraagOpslaanDAO);
+        loadVraagEdit(null);
     }
 
 
