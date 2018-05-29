@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import nl.han.toetsapplicatie.core.controllers.VraagOpstelController;
 import nl.han.toetsapplicatie.core.data.VraagOpslaanDAO;
+import nl.han.toetsapplicatie.module.model.Vraag;
 
 import java.io.IOException;
 
@@ -20,23 +21,37 @@ public class VraagOpstellenMain extends Application {
     Stage primaryStage;
 
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Vraag vraag = new Vraag();
+        vraag.setPlugin("nl.han.toetsapplicatie.plugin.GraphPlugin");
+        vraag.setData("\"{\\\"nodes\\\":[{\\\"name\\\":\\\"B\\\",\\\"connectedNodes\\\":[{\\\"nodeInfo\\\":\\\"D\\\",\\\"distance\\\":2}]},{\\\"name\\\":\\\"A\\\",\\\"connectedNodes\\\":[{\\\"nodeInfo\\\":\\\"B\\\",\\\"distance\\\":33},{\\\"nodeInfo\\\":\\\"B\\\",\\\"distance\\\":33}]},{\\\"name\\\":\\\"D\\\",\\\"connectedNodes\\\":[]}],\\\"vraagText\\\":\\\"Hallo\\\"}\\n\"");
+
+        vraag.setId(1);
+        vraag.setName("test");
         this.primaryStage = primaryStage;
         Scene scene = new Scene(new Label("If you see this something is wrong"), 1024, 700);
         primaryStage.setScene(scene);
         primaryStage.setTitle("HAN - Student Applicatie");
         primaryStage.show();
-        loadVraagEdit(null);
+        loadVraagEdit(new VraagOpslaanDAO() {
+            @Override
+            public void nieuweVraagOpslaan(String vraag) {
+                System.out.println(vraag);
+            }
+        }, vraag);
     }
 
 
-    public Node loadVraagEdit(VraagOpslaanDAO vraagOpslaan){
+    public Node loadVraagEdit(VraagOpslaanDAO vraagOpslaan, Vraag vraag){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/vraagOpstel.fxml"));
             Parent toetsMakeParent = loader.load();
             VraagOpstelController controller = loader.getController();
             controller.setVraagOpslaan(vraagOpslaan);
+            controller.setVraag(vraag);
             primaryStage.getScene().setRoot(toetsMakeParent);
             return toetsMakeParent;
 
